@@ -1,0 +1,3 @@
+application/venv/
+application/__pycache__/
+*.wav
