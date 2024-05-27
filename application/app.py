@@ -32,9 +32,5 @@ def upload():
     result = model.transcribe(filepath,fp16=False)
     return result["text"], 200
 
-@app.route('/download/<filename>')
-def download(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
 if __name__ == '__main__':
     app.run(debug=True)
