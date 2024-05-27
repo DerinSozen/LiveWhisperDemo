@@ -11,8 +11,8 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Ensure the upload folder exists
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 
 @app.route('/')
 def index():
@@ -29,8 +29,7 @@ def upload():
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
     
-    result = model.transcribe(filepath,fp16=False)
+    initial_prompt = ""
+    
+    result = model.transcribe(filepath,initial_prompt = initial_prompt, fp16=False)
     return result["text"], 200
-
-if __name__ == '__main__':
-    app.run(debug=True)

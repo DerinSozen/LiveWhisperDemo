@@ -22,7 +22,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            max-width: 1000px;
             width: 100%;
         }
         #resultString {
@@ -41,6 +41,28 @@
         .stopped {
             color: red;
         }
+        #downloadButton {
+            background-color: #336da7;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 15px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+    
+        #downloadButton:hover {
+            background-color: #26527d; /* Darker blue on hover */
+        }
+
+        #h1{
+            color: #336da7
+        }
     </style>
 </head>
 <body>
@@ -49,6 +71,8 @@
         <!-- Status element -->
         <div id="status">Recording...</div>
         <div id="resultString"></div>
+        <!-- Download button -->
+        <button id="downloadButton">Download</button>
     </div>
 
     <script>
@@ -112,6 +136,25 @@
                 status.classList.add('stopped');
             }
         }
+
+
+        // Function to handle the download action
+        function downloadResultString() {
+            const textToDownload = resultString.textContent;
+            const blob = new Blob([textToDownload], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'transcription.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Event listener for the download button
+        document.getElementById('downloadButton').addEventListener('click', downloadResultString);
+        
     </script>
 </body>
 </html>
