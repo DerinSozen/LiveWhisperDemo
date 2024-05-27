@@ -31,12 +31,23 @@
             color: #333;
             white-space: pre-wrap;
         }
+        #status {
+            font-size: 16px;
+            margin-top: 10px;
+            /* Color modified */
+            color: green;
+        }
+        /* Added style for recording stopped */
+        .stopped {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <div id="container">
-        <div>
-            <h1>Live Whisper Transcription</h1>
+        <h1>Live Whisper Transcription</h1>
+        <!-- Status element -->
+        <div id="status">Recording...</div>
         <div id="resultString"></div>
     </div>
 
@@ -44,6 +55,7 @@
         let mediaRecorder;
         let audioChunks = [];
         const resultString = document.getElementById('resultString');
+        const status = document.getElementById('status'); // Reference to the status element
 
         window.onload = () => {
             startRecording();
@@ -58,6 +70,7 @@
                 .then(stream => {
                     mediaRecorder = new MediaRecorder(stream);
                     mediaRecorder.start();
+                    status.textContent = 'Recording...'; // Update status to "Recording..."
 
                     mediaRecorder.addEventListener('dataavailable', event => {
                         audioChunks.push(event.data);
@@ -88,6 +101,9 @@
         function stopRecording() {
             if (mediaRecorder && mediaRecorder.state === 'recording') {
                 mediaRecorder.stop();
+                status.textContent = 'Recording stopped'; // Update status to "Recording stopped"
+                // Add the class 'stopped' to apply red color
+                status.classList.add('stopped');
             }
         }
     </script>
